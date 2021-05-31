@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Owl Search</title>
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body class="flex align-center flex-d-c">
+
+    <h1>Owl Search</h1>
+
+    <div class="main">
+        <form action="javascript:;" method="POST">
+            <input type="text" class="input" name="query" id="query" placeholder="search for anything..." autocomplete="off"/>
+        </form>
+    
+        <section id="results" class="result-content"></section>
+    </div>
+
+    <script src="/assets/js/owl-search.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <!-- #region Templates -->
+    <script type="text/template" id="_itemsNotFound">
+        <div class="not-found">
+            <p>There were no results.</p>
+        </div>
+    </script>
+
+    <script type="text/template" id="_resultItemList">
+        <div class="results">
+            <ul class="list-unstyled">
+                {{items}}
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="_resultItem">
+        <li class="result-item" data-id="{{id}}">
+            <div class="inner">
+                <b>Name</b>: {{name}}<br>
+                <b>Username</b>: {{username}}<br>
+                <b>Website</b>: <a href="//{{website}}" target="_blank">{{website}}</a> <br>
+                <b>Company</b>: {{company_name}}<br>
+                <b>Lat, Long</b>: {{address_geo_lat}}, {{address_geo_lng}}
+            </div>
+        </li>
+    </script>
+    <!-- #endregion -->
+</body>
+</html>
