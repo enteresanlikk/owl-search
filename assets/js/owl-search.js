@@ -10,7 +10,8 @@ class OwlSearch {
             item: ''
         },
         showAllQuery: '*',
-        flattenObject: true
+        flattenObject: true,
+        limit: false
     }
 
     constructor(options = this.defaults) {
@@ -18,6 +19,12 @@ class OwlSearch {
             ...this.defaults,
             ...options
         };
+
+        this.setData(this.options.data);
+    }
+
+    setData(data) {
+        this.options.data = data;
 
         if(this.options.flattenObject) {
             this.options.data = this.options.data.map(item => {
@@ -27,10 +34,10 @@ class OwlSearch {
     }
 
     search(query, data = []) {
-        let searchData = this.options.data;
         if(data && data.length > 0) {
-            searchData = data;
+            this.setData(data);
         }
+        let searchData = this.options.data;
 
         if(this.options.showAllQuery !== false && query == this.options.showAllQuery) {
             return searchData;
@@ -40,6 +47,7 @@ class OwlSearch {
         let searchFields = this.options.search.fields;
 
         let retVal = [];
+        let limit = this.options.limit;
         for(let item of searchData) {
             let hasItem = null;
             for(let searchField of searchFields) {
@@ -53,6 +61,9 @@ class OwlSearch {
 
             if(hasItem != null) {
                 retVal.push(hasItem);
+                if(limit !== false && limit == retVal.length) {
+                    break;
+                }
             }
         }
 
@@ -63,30 +74,38 @@ class OwlSearch {
         let html = '';
         
         if(query && query.length) {
-            let templates = this.options.templates;
-
             let items = this.search(query, data);
-            if(items && items.length > 0) {
-                let listHtml = templates.itemList;
-                let listItems = [];
 
-                for(let item of items) {
-                    let keys = Object.keys(item);
+            html = this.renderHTML(items);
+        }
 
-                    let itemHTML = templates.item;
-                    for(let key of keys) {
-                        itemHTML = itemHTML.replace(new RegExp(`{{${key}}}`, 'gim'), item[key])
-                    }
+        return html;
+    }
 
-                    listItems.push(itemHTML);
+    renderHTML(data) {
+        let html = '';
+
+        let templates = this.options.templates;
+        if(data && data.length > 0) {
+            let listHtml = templates.itemList;
+            let listItems = [];
+
+            for(let item of data) {
+                let keys = Object.keys(item);
+
+                let itemHTML = templates.item;
+                for(let key of keys) {
+                    itemHTML = itemHTML.replace(new RegExp(`{{${key}}}`, 'gim'), item[key])
                 }
 
-                let resultHtml = listHtml.replace(new RegExp('{{items}}', 'gim'), listItems.join(''));
-
-                html = resultHtml;
-            } else {
-                html = templates.notFound;
+                listItems.push(itemHTML);
             }
+
+            let resultHtml = listHtml.replace(new RegExp('{{items}}', 'gim'), listItems.join(''));
+
+            html = resultHtml;
+        } else {
+            html = templates.notFound;
         }
 
         return html;
@@ -103,7 +122,7 @@ class OwlSearch {
                 for (var x in flatObject) {
                     if (!flatObject.hasOwnProperty(x)) continue;
 
-                    toReturn[i + '_' + x] = flatObject[x];
+                    toReturn[i + '.' + x] = flatObject[x];
                 }
             } else {
                 toReturn[i] = obj[i];

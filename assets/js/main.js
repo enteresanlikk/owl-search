@@ -5,11 +5,13 @@ const getData = (url) => {
     return JSON.parse(xmlHttp.responseText)
 }
 
+let owlSearch;
+
 document.addEventListener('DOMContentLoaded', e => {
-    const owlSearch = new OwlSearch({
+    owlSearch = new OwlSearch({
         data: getData('https://jsonplaceholder.typicode.com/users'),
         search: {
-            fields: ['name', 'username', 'company_name']
+            fields: ['name', 'username', 'company.name']
         },
         templates: {
             notFound: document.querySelector('#_itemsNotFound').innerHTML,
