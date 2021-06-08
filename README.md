@@ -61,9 +61,9 @@ const html_only_data = owlSearch.renderHTML(YOUR_DATA_ARRAY)
 |data|`Array`|[]|Data to search.|
 |search|[`Search`](#search-model)|||
 |templates|[`Template`](#template-model)|||
-|showAllQuery|`Boolean | String`|*|When the given value is entered, all the data is drawn. If `false` is given, this function will not work.|
+|showAllQuery|Boolean or String|*|When the given value is entered, all the data is drawn. If `false` is given, this function will not work.|
 |flattenObject|`Boolean`|`true`|It's used to reduce your nested objects to a single level. The field `user.names.firstname` can be converted to the field `user_names_firstname` and can be used in this way on the `template` side.|
-|limit|`Boolean | Number`|`false`|If you want to restrict the number of data to be returned, you can use it. If you give `false`, all the results found will be brought.|
+|limit|Boolean or Number|`false`|If you want to restrict the number of data to be returned, you can use it. If you give `false`, all the results found will be brought.|
 
 ## Search Model
 |Name|Type|Default Value|Description|
