@@ -106,8 +106,8 @@ const html_only_data = owlSearch.renderHTML(YOUR_DATA_ARRAY)
             <b>Name</b>: {{name}}<br>
             <b>Username</b>: {{username}}<br>
             <b>Website</b>: <a href="//{{website}}" target="_blank">{{website}}</a><br>
-            <b>Company</b>: {{company_name}}<br>
-            <b>Lat, Long</b>: {{address_geo_lat}}, {{address_geo_lng}}
+            <b>Company</b>: {{company.name}}<br>
+            <b>Lat, Long</b>: {{address.geo.lat}}, {{address.geo.lng}}
         </div>
     </li>
 </script>
